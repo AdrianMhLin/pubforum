@@ -1,1 +1,10 @@
-sign up
+<h1>Sign up</h1>
+
+<form action="/users" method="POST">
+  <input name="authenticity_token" value="<%= form_authenticity_token() %>" type="hidden">
+  <input type="email" name="email" placeholder="Email">
+  <input type="text" name="image_url" placeholder="Profile image url">
+  <input type="password" name="password" placeholder="Password">
+
+  <button>Sign up</button>
+</form>
