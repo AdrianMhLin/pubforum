@@ -16,10 +16,65 @@
   <!-- add comment section -->
   <!--
   remember, they can either log in or or create a 
+  -->
+  <%if session[:user_id]%>
+    <!-- username -->
+    <p><%=@users.find(session[:user_id])['username']%></p>
+    <form action="/users/<%=session[:user_id]%>/comments" method="POST">
+      <input name="authenticity_token" value="<%= form_authenticity_token() %>" type="hidden">
+      <input type="text" name="text" placeholder="comment">
+      <input type="hidden" name="created_at">
+      <button>Submit</button>
+    </form>
+  <%else%>
+    <form action="/comments" method="POST">
+      <input name="authenticity_token" value="<%= form_authenticity_token() %>" type="hidden">
+      <input type="text" name="guestname" name="name you are posting as" required>
+      <input type="text" name="text" name="comment">
+      <input type="hidden" name="created_at">
+      <button>Submit</button>
+    </form>
+  <%end%>
 
   <!-- show all comments from newest to oldest -->
   <%@comments.each do |comment|%>
-    <%binding.pry%>
+    <!-- username -->
+    <%username = @users.find(comment[:user_id])[:username]%>
+    <%if username%>
+      <p>username: <%=username%></p>
+    <%else%>
+      <p>guestname: <%=@users.find(comment[:user_id])[:guestname]%></p>
+    <%end%>
   <%end%>
 
 </section>
+<script>
+  function getDateTime() {
+    var now     = new Date(); 
+    var year    = now.getFullYear();
+    var month   = now.getMonth()+1; 
+    var day     = now.getDate();
+    var hour    = now.getHours();
+    var minute  = now.getMinutes();
+    var second  = now.getSeconds(); 
+    if(month.toString().length == 1) {
+        var month = '0'+month;
+    }
+    if(day.toString().length == 1) {
+        var day = '0'+day;
+    }   
+    if(hour.toString().length == 1) {
+        var hour = '0'+hour;
+    }
+    if(minute.toString().length == 1) {
+        var minute = '0'+minute;
+    }
+    if(second.toString().length == 1) {
+        var second = '0'+second;
+    }   
+    var dateTime = year+'/'+month+'/'+day+' '+hour+':'+minute+':'+second;   
+     return dateTime;
+  }
+
+  $('input[name="created_at"]').val( getDateTime() );
+</script>

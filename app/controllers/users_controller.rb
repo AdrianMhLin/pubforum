@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   def create
     u = User.create(
+      username: params['username'],
       email: params['email'].downcase,
       password: params['password'],
       image_url: params['image_url']

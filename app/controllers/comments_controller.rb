@@ -1,9 +1,13 @@
 class CommentsController < ApplicationController
   def create
-    
-  end
+    c = Comment.create(
+      user_id: params['user_id'],
+      text: params['text'],
+      guestname: params['guestname'],
+      created_at: params['datetime']
+    )
 
-  def new
+    redirect_to request.referrer
   end
 
   def delete
