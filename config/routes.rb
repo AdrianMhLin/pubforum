@@ -23,6 +23,8 @@ Rails.application.routes.draw do
   post '/login' => 'session#create'
   delete '/session' => 'session#destroy'
 
+  get '/test_profile' => 'home#test_profile'
+
 #              Prefix Verb   URI Pattern                                 Controller#Action
 #     user_comments GET    /users/:user_id/comments(.:format)          comments#index
 #                   POST   /users/:user_id/comments(.:format)          comments#create
