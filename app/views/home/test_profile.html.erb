@@ -1,7 +1,20 @@
-<h1>Test profile</h1>
+<h1>Test_profile</h1>
 
-<title>Name</title>
 <style>
+  main {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .details #profile {
+    float: left;
+  }
+  .details #evidence {
+  }
+
+  .details #description {
+
+  }
+
   .comment-box {
     border: 0.2em solid black;
     margin: 0.2em;
@@ -11,62 +24,86 @@
   }
 </style>
 
-<img src="http://flaticons.net/gd/makefg.php?i=icons/Application/User-Profile.png" alt="test_profile image">
+<main>
+  <section class="details">
+ 
+    <div id="profile">
+      <!-- profile image -->
+      <h3>test_profile image</h3>
+      <img src="http://flaticons.net/gd/makefg.php?i=icons/Application/User-Profile.png" alt="test_profile image">
+      <!-- association -->
+      <h3>Associated with</h3>
+      <h4>School: test_profile school</h4>
+    </div>
 
-<img src="https://aggiesurplus.ucdavis.edu/pics/SurplusPropertyFormLg.jpg" alt="details">
 
-<p>
-  Lorem ipsum dolor sit amet, nemore referrentur an nec. Sea ex erant civibus, cum an legimus nusquam accumsan. Nam aliquid definitionem ea, mutat apeirian hendrerit mei ea. Cu clita scripserit sea.
+    <!-- evidence -->
+    <div id="evidence">
+      <img src="https://aggiesurplus.ucdavis.edu/pics/SurplusPropertyFormLg.jpg" alt="details">
+      <caption>evidence</caption>
+    </div>
 
-  Tation epicuri ut ius, ius lorem dicunt te. Id ius ullum clita eruditi. Sed an constituam eloquentiam. Quo at esse habemus constituam, pri sensibus sadipscing te. Saepe mucius legimus an sea, incorrupte adversarium eos cu. Ne mel persius civibus lucilius, pri ei ignota deseruisse dissentiunt.
-</p>
+    <!-- in depth description -->
+    <div id="description">
+      <h3>Background</h3>
+      <p>
+        Lorem ipsum dolor sit amet, nemore referrentur an nec. Sea ex erant civibus, cum an legimus nusquam accumsan. Nam aliquid definitionem ea, mutat apeirian hendrerit mei ea. Cu clita scripserit sea.
 
-<section id="comments">
-  <!-- add comment section -->
-  <!--
-  remember, they can either log in or or create a 
-  -->
-  <%if session[:user_id]%>
-    <!-- username -->
-    <p><%=@users.find(session[:user_id])['username']%></p>
-    <form action="/users/<%=session[:user_id]%>/comments" method="POST">
-      <input name="authenticity_token" value="<%= form_authenticity_token() %>" type="hidden">
-      <input type="text" name="text" placeholder="comment">
-      <input type="hidden" name="created_at">
-      <button>Submit</button>
-    </form>
-  <%else%>
-    <form action="/comments" method="POST">
-      <input name="authenticity_token" value="<%= form_authenticity_token() %>" type="hidden">
-      <input type="text" name="guestname" name="name you are posting as" required>
-      <input type="text" name="text" name="comment">
-      <input type="hidden" name="created_at">
-      <button>Submit</button>
-    </form>
-  <%end%>
+        Tation epicuri ut ius, ius lorem dicunt te. Id ius ullum clita eruditi. Sed an constituam eloquentiam. Quo at esse habemus constituam, pri sensibus sadipscing te. Saepe mucius legimus an sea, incorrupte adversarium eos cu. Ne mel persius civibus lucilius, pri ei ignota deseruisse dissentiunt.
+      </p>
+    </div>
 
-  <!-- show all comments from newest to oldest -->
-  <%@comments.each do |comment|%>
+  </section>
 
-    <section class="comment-box">
+  <!-- comment section-->
+  <section id="comments">
+    <!-- add comment section -->
+    <!--
+    remember, they can either log in or or create a 
+    -->
+    <%if session[:user_id]%>
       <!-- username -->
-      <%username = @users.find(comment[:user_id])[:username]%>
-      <%if username%>
-        <h5>username: <%=username%>
-      <%else%>
-        <h5>guestname: <%=@users.find(comment[:user_id])[:guestname]%>
-      <%end%>
+      <p><%=@users.find(session[:user_id])['username']%></p>
+      <form action="/users/<%=session[:user_id]%>/comments" method="POST">
+        <input name="authenticity_token" value="<%= form_authenticity_token() %>" type="hidden">
+        <input type="text" name="text" placeholder="comment">
+        <input type="hidden" name="created_at">
+        <button>Submit</button>
+      </form>
+    <%else%>
+      <form action="/comments" method="POST">
+        <input name="authenticity_token" value="<%= form_authenticity_token() %>" type="hidden">
+        <input type="text" name="guestname" name="name you are posting as" required>
+        <input type="text" name="text" name="comment">
+        <input type="hidden" name="created_at">
+        <button>Submit</button>
+      </form>
+    <%end%>
 
-      <!-- datetime -->
-      <%=comment[:created_at]%>
-      </h5>
+    <!-- show all comments from newest to oldest -->
+    <%@comments.reverse.each do |comment|%>
 
-      <!-- comment -->
-      <p><%=comment[:text]%></p>  
-    </section>
-  <%end%>
+      <section class="comment-box">
+        <!-- username -->
+        <%username = @users.find(comment[:user_id])[:username]%>
+        <%if username%>
+          <h5>username: <%=username%>
+        <%else%>
+          <h5>guestname: <%=@users.find(comment[:user_id])[:guestname]%>
+        <%end%>
 
-</section>
+        <!-- datetime -->
+        <%=comment[:created_at]%>
+        </h5>
+
+        <!-- comment -->
+        <p><%=comment[:text]%></p>  
+      </section>
+    <%end%>
+
+  </section>  
+</main>
+
 <script>
   function getDateTime() {
     var now     = new Date(); 
