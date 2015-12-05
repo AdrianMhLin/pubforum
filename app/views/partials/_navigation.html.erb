@@ -1,29 +1,68 @@
-<nav>
-  <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="mailto:test@test.com">Contact us!</a></li>
-    <li><a href="/users/new">Sign up</a></li>
-    <%if session[:user_id]%>
-      <li>
+<style>
+  #main-nav-bar {
+    background-color:salmon;
+    height: 3em;
+    width: 100%;
+  }
 
-        <!-- Log out button -->
-        <form id="logout-button" action="/session" method="POST">
-          <input type="hidden" name="_method" value="DELETE">
-          <input name="authenticity_token" value="<%= form_authenticity_token() %>" type="hidden">
-          <button type="submit" class="btn btn-default">Log out</button>
-        </form>
+  #main-nav-bar ul {
+    list-style:none;
+  }
+  #main-nav-bar li {
+    float:left;
+    margin: 0 2em 0 2em;
+  }
+  #login {
+    margin-top:3%;
+  }
+</style>
 
-      </li>
-    <%else%>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">Home</a>
+    </div>
 
-      <form action="/login" method="POST">
-        <input type="email" name="email" placeholder="Email">
-        <input type="password" name="password" placeholder="Password">
-        <input name="authenticity_token" value="<%= form_authenticity_token() %>" type="hidden">
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="#">Contact us</a></li>
+        <li><a href="#">Sign up</a></li>
 
-        <button type="submit" class="btn btn-primary">Log in</button>
+        <%if session[:user_id]%>
+          <li>
+
+            <!-- Log out button -->
+            <a href="#" onclick="$('#logout').submit()">Log Out</a>
+            <form id="logout" action="/session" method="POST">
+              <input type="hidden" name="_method" value="DELETE">
+              <input name="authenticity_token" value="<%= form_authenticity_token() %>" type="hidden">
+              
+            </form>
+            
+
+          </li>
+        <%else%>
+          <li>
+            <form id="login" action="/login" method="POST">
+              <input type="email" name="email" placeholder="Email">
+              <input type="password" name="password" placeholder="Password">
+              <input name="authenticity_token" value="<%= form_authenticity_token() %>" type="hidden">
+              <a href="#" onclick="$('#login').submit()">Log in</a>  
+            </form>
+            
+          </li>
+        <%end%>
+      </ul>
+
+      <!-- search -->
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search">
+        </div>
       </form>
-
-    <%end%>
-  </ul>
+      
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
 </nav>
